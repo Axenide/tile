@@ -1,7 +1,5 @@
 
-// --- Helper Functions for Sandboxed Environment ---
-
-// Polyfill for classList operations using className
+// Helper functions
 function hasClass(el, className) {
     if (!el) return false;
     return (' ' + el.className + ' ').indexOf(' ' + className + ' ') > -1;
@@ -28,394 +26,279 @@ function toggleClass(el, className) {
     }
 }
 
-// Helper to replace closest()
-function getClosest(elem, selector) {
-    var first = selector.charAt(0);
-    for ( ; elem && elem !== document; elem = elem.parentNode ) {
-        // If selector is class
-        if (first === '.') {
-            if (hasClass(elem, selector.substr(1))) return elem;
-        } 
-        // If selector is id
-        else if (first === '#') {
-            if (elem.id === selector.substr(1)) return elem;
-        } 
-        // If selector is tag
-        else {
-            if (elem.tagName === selector.toUpperCase()) return elem;
+// Main initialization
+function initApp() {
+    var startBtn = document.getElementById('start-btn');
+    var startMenu = document.getElementById('start-menu');
+    var taskItemsContainer = document.querySelector('.task-items');
+    var clockEl = document.getElementById('clock');
+    var desktop = document.querySelector('.desktop');
+
+    // State
+    var draggedWindow = null;
+    var resizingWindow = null;
+    var resizeDir = '';
+    var offset = { x: 0, y: 0 };
+    var initialRect = { w: 0, h: 0, x: 0, y: 0 };
+
+    // Clock
+    function updateClock() {
+        var now = new Date();
+        var hours = now.getHours();
+        var minutes = now.getMinutes().toString();
+        if (minutes.length < 2) minutes = '0' + minutes;
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        if (clockEl) clockEl.textContent = hours + ':' + minutes + ' ' + ampm;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Start Menu Interaction
+    if (startBtn) {
+        startBtn.addEventListener('click', function(e) {
+            toggleClass(startMenu, 'hidden');
+            toggleClass(startBtn, 'active');
+        });
+    }
+
+    // Taskbar Management
+    function updateTaskbarState(activeWinId) {
+        var items = document.querySelectorAll('.task-item');
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].getAttribute('data-win') === activeWinId) {
+                addClass(items[i], 'active');
+            } else {
+                removeClass(items[i], 'active');
+            }
         }
-    }
-    return null;
-}
-
-// --- Main Application Logic ---
-
-var startBtn = document.getElementById('start-btn');
-var startMenu = document.getElementById('start-menu');
-var taskItemsContainer = document.querySelector('.task-items');
-
-// Start Menu Toggle
-if (startBtn) {
-    startBtn.addEventListener('click', function(e) {
-        if (e.stopPropagation) e.stopPropagation();
-        toggleClass(startMenu, 'hidden');
-        toggleClass(startBtn, 'active');
-    });
-}
-
-document.addEventListener('click', function(e) {
-    var target = e.target || e.srcElement;
-    // Don't clear active state if clicking on a window, taskbar, icon, or start menu
-    if (getClosest(target, '.window') || 
-        getClosest(target, '.taskbar') || 
-        getClosest(target, '.desktop-icon') || 
-        getClosest(target, '#start-menu')) {
-        return;
-    }
-
-    if (startMenu) addClass(startMenu, 'hidden');
-    if (startBtn) removeClass(startBtn, 'active');
-    
-    // Deseleccionar iconos
-    var icons = document.querySelectorAll('.desktop-icon');
-    for (var i = 0; i < icons.length; i++) {
-        removeClass(icons[i], 'selected');
-    }
-    
-    // Desactivar ventanas (visual)
-    var wins = document.querySelectorAll('.window');
-    for (var i = 0; i < wins.length; i++) {
-        removeClass(wins[i], 'active');
-    }
-});
-
-document.addEventListener('mousedown', function(e) {
-    var target = e.target || e.srcElement;
-    var win = getClosest(target, '.window');
-    if (win) {
-        // Bring to front and activate
+        
         var wins = document.querySelectorAll('.window');
         for (var i = 0; i < wins.length; i++) {
-            wins[i].style.zIndex = 10;
-        }
-        win.style.zIndex = 100;
-        setActiveTaskbarItem(win.id);
-    }
-});
-
-// Helper para activar botón de taskbar y ventana
-function setActiveTaskbarItem(winId) {
-    var btns = document.querySelectorAll('.task-item');
-    for (var i = 0; i < btns.length; i++) {
-        if (btns[i].getAttribute('data-win') === winId) {
-            addClass(btns[i], 'active');
-        } else {
-            removeClass(btns[i], 'active');
-        }
-    }
-
-    // Activar visualmente la ventana
-    var wins = document.querySelectorAll('.window');
-    for (var i = 0; i < wins.length; i++) {
-        if (wins[i].id === winId) {
-            addClass(wins[i], 'active');
-        } else {
-            removeClass(wins[i], 'active');
-        }
-    }
-}
-
-// Función para agregar item al taskbar
-function addTaskbarItem(winId, title) {
-    if (document.querySelector('.task-item[data-win="' + winId + '"]')) return;
-
-    var btn = document.createElement('button');
-    btn.className = 'task-item';
-    btn.setAttribute('data-win', winId);
-    // Use createTextNode for safety against HTML injection
-    btn.appendChild(document.createTextNode(title));
-    
-    btn.addEventListener('click', function(e) {
-        if (e.stopPropagation) e.stopPropagation();
-        var win = document.getElementById(winId);
-        
-        if (hasClass(win, 'hidden')) {
-            removeClass(win, 'hidden');
-            var wins = document.querySelectorAll('.window');
-            for (var i = 0; i < wins.length; i++) {
+            if (wins[i].id === activeWinId) {
+                addClass(wins[i], 'active');
+                wins[i].style.zIndex = 100;
+            } else {
+                removeClass(wins[i], 'active');
                 wins[i].style.zIndex = 10;
             }
-            win.style.zIndex = 100;
-            setActiveTaskbarItem(winId);
-        } else if (parseInt(win.style.zIndex) < 100 || !hasClass(win, 'active')) {
-            var wins = document.querySelectorAll('.window');
-            for (var i = 0; i < wins.length; i++) {
-                wins[i].style.zIndex = 10;
-            }
-            win.style.zIndex = 100;
-            setActiveTaskbarItem(winId);
-        } else {
-            addClass(win, 'hidden');
-            removeClass(btn, 'active');
-            removeClass(win, 'active');
         }
-    });
-
-    if (taskItemsContainer) taskItemsContainer.appendChild(btn);
-}
-
-function removeTaskbarItem(winId) {
-    var btn = document.querySelector('.task-item[data-win="' + winId + '"]');
-    if (btn && btn.parentNode) btn.parentNode.removeChild(btn);
-}
-
-function openWindow(winId) {
-    var win = document.getElementById(winId);
-    if (!win) return;
-    if (hasClass(win, 'hidden')) removeClass(win, 'hidden');
-    var wins = document.querySelectorAll('.window');
-    for (var i = 0; i < wins.length; i++) {
-        wins[i].style.zIndex = 10;
     }
-    win.style.zIndex = 100;
-    var title = win.getAttribute('data-title') || 'Window';
-    addTaskbarItem(winId, title);
-    setActiveTaskbarItem(winId);
-}
 
-function closeWindow(winId) {
-    var win = document.getElementById(winId);
-    if (!win) return;
-    addClass(win, 'hidden');
-    removeTaskbarItem(winId);
-}
+    function addTaskbarItem(winId, title) {
+        if (document.querySelector('.task-item[data-win="' + winId + '"]')) return;
 
-// Maximize Logic
-function toggleMaximize(win) {
-    if (win.getAttribute('data-maximized') === 'true') {
-        // Restore
-        var prevStyle = JSON.parse(win.getAttribute('data-prev-style'));
-        win.style.top = prevStyle.top;
-        win.style.left = prevStyle.left;
-        win.style.width = prevStyle.width;
-        win.style.height = prevStyle.height;
-        win.removeAttribute('data-maximized');
-    } else {
-        // Maximize
-        win.setAttribute('data-prev-style', JSON.stringify({
-            top: win.style.top,
-            left: win.style.left,
-            width: win.style.width || '',
-            height: win.style.height || ''
-        }));
-        win.style.top = '0';
-        win.style.left = '0';
-        win.style.width = '100%';
-        win.style.height = 'calc(100% - 22px)'; // Minus taskbar
-        win.setAttribute('data-maximized', 'true');
-    }
-}
-
-// Ventanas Inicialización (Resizers y Eventos)
-var draggedWindow = null;
-var resizingWindow = null;
-var resizeDir = '';
-var offset = { x: 0, y: 0 };
-var initialRect = {};
-
-var windowElements = document.querySelectorAll('.window');
-for (var i = 0; i < windowElements.length; i++) {
-    (function(win) {
-        var titleBar = win.querySelector('.title-bar');
+        var btn = document.createElement('button');
+        btn.className = 'task-item';
+        btn.setAttribute('data-win', winId);
+        btn.textContent = title; // Use textContent for plain text
         
-        // Inyectar resizers
-        var dirs = ['n', 's', 'e', 'w', 'ne', 'nw', 'se', 'sw'];
-        for (var j = 0; j < dirs.length; j++) {
-            (function(dir) {
-                var resizer = document.createElement('div');
-                resizer.className = 'resizer ' + dir;
-                resizer.addEventListener('mousedown', function(e) {
-                    if (e.stopPropagation) e.stopPropagation();
-                    resizingWindow = win;
-                    resizeDir = dir;
-                    initialRect = win.getBoundingClientRect();
-                    offset.x = e.clientX;
-                    offset.y = e.clientY;
-                    var wins = document.querySelectorAll('.window');
-                    for (var k = 0; k < wins.length; k++) {
-                        wins[k].style.zIndex = 10;
-                    }
-                    win.style.zIndex = 100;
-                    setActiveTaskbarItem(win.id);
-                });
-                win.appendChild(resizer);
-            })(dirs[j]);
+        btn.addEventListener('click', function(e) {
+            var win = document.getElementById(winId);
+            if (!win) return;
+
+            if (hasClass(win, 'hidden')) {
+                removeClass(win, 'hidden');
+                updateTaskbarState(winId);
+            } else if (!hasClass(win, 'active')) {
+                updateTaskbarState(winId);
+            } else {
+                addClass(win, 'hidden');
+                removeClass(btn, 'active');
+                removeClass(win, 'active');
+            }
+        });
+
+        if (taskItemsContainer) taskItemsContainer.appendChild(btn);
+    }
+
+    function removeTaskbarItem(winId) {
+        var btn = document.querySelector('.task-item[data-win="' + winId + '"]');
+        if (btn && btn.parentNode) btn.parentNode.removeChild(btn);
+    }
+
+    // Window Management
+    function setupWindow(win) {
+        // Taskbar item
+        if (!hasClass(win, 'hidden')) {
+            addTaskbarItem(win.id, win.getAttribute('data-title'));
         }
 
-        if (titleBar) {
-            titleBar.addEventListener('mousedown', function(e) {
-                var target = e.target || e.srcElement;
-                if (getClosest(target, 'button')) return; // Ignorar clicks en botones
-                if (win.getAttribute('data-maximized') === 'true') return; // No arrastrar si maximizado
+        // Activation on click
+        win.addEventListener('mousedown', function(e) {
+            // No stopPropagation here to allow resizing/dragging checks
+            updateTaskbarState(win.id);
+        });
 
-                if (e.stopPropagation) e.stopPropagation();
-                draggedWindow = win;
-                offset.x = e.clientX - win.offsetLeft;
-                offset.y = e.clientY - win.offsetTop;
-                var wins = document.querySelectorAll('.window');
-                for (var k = 0; k < wins.length; k++) {
-                    wins[k].style.zIndex = 10;
-                }
-                win.style.zIndex = 100;
-                setActiveTaskbarItem(win.id);
+        // Close button
+        var closeBtn = win.querySelector('.close-btn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function(e) {
+                addClass(win, 'hidden');
+                removeTaskbarItem(win.id);
             });
         }
 
-        // Botones
+        // Minimize button
         var minBtn = win.querySelector('.min-btn');
         if (minBtn) {
             minBtn.addEventListener('click', function(e) {
-                if (e.stopPropagation) e.stopPropagation();
                 addClass(win, 'hidden');
                 var btn = document.querySelector('.task-item[data-win="' + win.id + '"]');
                 if (btn) removeClass(btn, 'active');
-                removeClass(win, 'active');
             });
         }
 
+        // Maximize button
         var maxBtn = win.querySelector('.max-btn');
         if (maxBtn) {
             maxBtn.addEventListener('click', function(e) {
-                if (e.stopPropagation) e.stopPropagation();
                 toggleMaximize(win);
             });
         }
 
-        var closeBtn = win.querySelector('.close-btn');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', function(e) {
-                if (e.stopPropagation) e.stopPropagation();
-                closeWindow(win.id);
+        // Title Bar Dragging
+        var titleBar = win.querySelector('.title-bar');
+        if (titleBar) {
+            titleBar.addEventListener('mousedown', function(e) {
+                // Ignore buttons - ES5 compatible check
+                var target = e.target;
+                while (target && target !== titleBar) {
+                    if (target.tagName === 'BUTTON') return;
+                    target = target.parentNode;
+                }
+                
+                if (win.getAttribute('data-maximized') !== 'true') {
+                    e.preventDefault(); // Prevent selection
+                    draggedWindow = win;
+                    offset.x = e.clientX - win.offsetLeft;
+                    offset.y = e.clientY - win.offsetTop;
+                    updateTaskbarState(win.id);
+                }
             });
         }
-    })(windowElements[i]);
-}
 
-// Mouse Move Global (Arrastrar y Redimensionar)
-document.addEventListener('mousemove', function(e) {
-    // Redimensionar
-    if (resizingWindow) {
-        if (e.preventDefault) e.preventDefault();
-        var deltaX = e.clientX - offset.x;
-        var deltaY = e.clientY - offset.y;
-        
-        var minW = 100;
-        var minH = 50;
-
-        var newW = initialRect.width;
-        var newH = initialRect.height;
-        var newX = initialRect.left;
-        var newY = initialRect.top;
-
-        if (resizeDir.indexOf('e') !== -1) newW = Math.max(minW, initialRect.width + deltaX);
-        if (resizeDir.indexOf('s') !== -1) newH = Math.max(minH, initialRect.height + deltaY);
-        
-        if (resizeDir.indexOf('w') !== -1) {
-            var w = Math.max(minW, initialRect.width - deltaX);
-            newX += (initialRect.width - w);
-            newW = w;
+        // Resizers
+        var dirs = ['n', 's', 'e', 'w', 'ne', 'nw', 'se', 'sw'];
+        for (var i = 0; i < dirs.length; i++) {
+            (function(dir) {
+                var r = document.createElement('div');
+                r.className = 'resizer ' + dir;
+                r.addEventListener('mousedown', function(e) {
+                    e.preventDefault();
+                    resizingWindow = win;
+                    resizeDir = dir;
+                    initialRect = {
+                        w: win.offsetWidth,
+                        h: win.offsetHeight,
+                        x: win.offsetLeft,
+                        y: win.offsetTop,
+                        mouseX: e.clientX,
+                        mouseY: e.clientY
+                    };
+                    updateTaskbarState(win.id);
+                });
+                win.appendChild(r);
+            })(dirs[i]);
         }
-        if (resizeDir.indexOf('n') !== -1) {
-            var h = Math.max(minH, initialRect.height - deltaY);
-            newY += (initialRect.height - h);
-            newH = h;
-        }
-
-        resizingWindow.style.width = newW + 'px';
-        resizingWindow.style.height = newH + 'px';
-        resizingWindow.style.left = newX + 'px';
-        resizingWindow.style.top = newY + 'px';
-        return;
     }
 
-    // Arrastrar
-    if (draggedWindow) {
-        draggedWindow.style.left = (e.clientX - offset.x) + 'px';
-        draggedWindow.style.top = (e.clientY - offset.y) + 'px';
+    function toggleMaximize(win) {
+        var isMax = win.getAttribute('data-maximized') === 'true';
+        if (isMax) {
+            win.style.top = win.getAttribute('data-prev-top');
+            win.style.left = win.getAttribute('data-prev-left');
+            win.style.width = win.getAttribute('data-prev-width');
+            win.style.height = win.getAttribute('data-prev-height');
+            win.removeAttribute('data-maximized');
+        } else {
+            win.setAttribute('data-prev-top', win.style.top);
+            win.setAttribute('data-prev-left', win.style.left);
+            win.setAttribute('data-prev-width', win.style.width);
+            win.setAttribute('data-prev-height', win.style.height);
+            
+            win.style.top = '0';
+            win.style.left = '0';
+            win.style.width = '250px';
+            win.style.height = '222px';
+            win.setAttribute('data-maximized', 'true');
+        }
     }
-});
 
-document.addEventListener('mouseup', function() {
-    draggedWindow = null;
-    resizingWindow = null;
-});
+    // Initialize all windows
+    var windows = document.querySelectorAll('.window');
+    for (var i = 0; i < windows.length; i++) {
+        setupWindow(windows[i]);
+    }
 
-// Desktop Icons Logic
-var desktopIcons = document.querySelectorAll('.desktop-icon');
-for (var i = 0; i < desktopIcons.length; i++) {
-    (function(icon) {
-        icon.addEventListener('click', function(e) {
-            if (e.stopPropagation) e.stopPropagation();
-            var allIcons = document.querySelectorAll('.desktop-icon');
-            for (var j = 0; j < allIcons.length; j++) {
-                removeClass(allIcons[j], 'selected');
+    // Desktop Icons - using single click to open (dblclick may not work in sandbox)
+    var icons = document.querySelectorAll('.desktop-icon');
+    for (var i = 0; i < icons.length; i++) {
+        (function(icon) {
+            icon.addEventListener('click', function(e) {
+                // Select icon
+                for (var j = 0; j < icons.length; j++) removeClass(icons[j], 'selected');
+                addClass(icon, 'selected');
+                
+                // Open associated window
+                var winId = icon.getAttribute('data-win');
+                var win = document.getElementById(winId);
+                if (win) {
+                    removeClass(win, 'hidden');
+                    if (!document.querySelector('.task-item[data-win="' + winId + '"]')) {
+                        addTaskbarItem(winId, win.getAttribute('data-title'));
+                    }
+                    updateTaskbarState(winId);
+                }
+            });
+        })(icons[i]);
+    }
+
+    // Global Interaction Handlers
+    document.addEventListener('mousemove', function(e) {
+        if (draggedWindow) {
+            e.preventDefault();
+            draggedWindow.style.left = (e.clientX - offset.x) + 'px';
+            draggedWindow.style.top = (e.clientY - offset.y) + 'px';
+        } else if (resizingWindow) {
+            e.preventDefault();
+            var deltaX = e.clientX - initialRect.mouseX;
+            var deltaY = e.clientY - initialRect.mouseY;
+            
+            // Simple resizing (South-East oriented for simplicity, can be expanded)
+            if (resizeDir.indexOf('e') !== -1) {
+                resizingWindow.style.width = Math.max(100, initialRect.w + deltaX) + 'px';
             }
-            addClass(icon, 'selected');
-        });
-
-        icon.addEventListener('dblclick', function(e) {
-            if (e.stopPropagation) e.stopPropagation();
-            var winId = icon.getAttribute('data-win');
-            if (winId) openWindow(winId);
-        });
-    })(desktopIcons[i]);
-}
-
-// Init
-function init() {
-    var wins = document.querySelectorAll('.window');
-    for (var i = 0; i < wins.length; i++) {
-        var win = wins[i];
-        // Check if NOT hidden
-        if (!hasClass(win, 'hidden')) {
-            var title = win.getAttribute('data-title');
-            addTaskbarItem(win.id, title);
-        }
-    }
-
-    var topWindow = null;
-    var maxZ = -1;
-    for (var i = 0; i < wins.length; i++) {
-        var win = wins[i];
-        if (!hasClass(win, 'hidden')) {
-            var z = parseInt(win.style.zIndex || 0);
-            if (z > maxZ) {
-                maxZ = z;
-                topWindow = win;
+            if (resizeDir.indexOf('s') !== -1) {
+                resizingWindow.style.height = Math.max(50, initialRect.h + deltaY) + 'px';
             }
+            // For full implementation we would handle N/W/NE/SW etc here
         }
-    }
-    if (topWindow) {
-        setActiveTaskbarItem(topWindow.id);
+    });
+
+    document.addEventListener('mouseup', function() {
+        draggedWindow = null;
+        resizingWindow = null;
+    });
+
+    // Background Click
+    if (desktop) {
+        desktop.addEventListener('click', function(e) {
+            if (e.target === desktop) {
+                if (!hasClass(startMenu, 'hidden')) addClass(startMenu, 'hidden');
+                if (hasClass(startBtn, 'active')) removeClass(startBtn, 'active');
+                
+                for (var i = 0; i < icons.length; i++) removeClass(icons[i], 'selected');
+                for (var i = 0; i < windows.length; i++) removeClass(windows[i], 'active');
+            }
+        });
     }
 }
 
-// Clock
-function updateClock() {
-    var now = new Date();
-    var hours = now.getHours();
-    var minutes = now.getMinutes().toString();
-    // Padding logic since padStart is ES2017
-    if (minutes.length < 2) minutes = '0' + minutes;
-    
-    var ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    var clock = document.getElementById('clock');
-    if (clock) clock.textContent = hours + ':' + minutes + ' ' + ampm;
+// Ensure execution
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
 }
-
-setInterval(updateClock, 1000);
-updateClock();
-
-init();

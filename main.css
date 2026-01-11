@@ -1,41 +1,45 @@
 @font-face {
-  font-family: 'w95font';
-  src: url('./assets/w95font.woff2') format('woff2'),
-       url('./assets/w95font.woff') format('woff');
+  font-family: "w95font";
+  src:
+    url("assets/w95font.woff2") format("woff2"),
+    url("assets/w95font.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'w95font';
-  src: url('./assets/w95font-bold.woff2') format('woff2'),
-       url('./assets/w95font-bold.woff') format('woff');
+  font-family: "w95font";
+  src:
+    url("assets/w95font-bold.woff2") format("woff2"),
+    url("assets/w95font-bold.woff") format("woff");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'dosfont';
-  src: url('./assets/MorePerfectDOSVGA.ttf') format('truetype');
+  font-family: "dosfont";
+  src: url("assets/MorePerfectDOSVGA.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
+html,
 body {
+  height: 100%;
   margin: 0;
-  background: #1b1d1d;
+  padding: 0;
   overflow: hidden;
-  font-family: 'w95font', sans-serif;
+  background: #1b1d1d;
+  font-family: "w95font", sans-serif;
   font-size: 10px;
 }
 
 .desktop {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-color: #008080;
   position: relative;
   overflow: hidden;
-  /* Removed border to fill screen */
 }
 
 /* Helper Classes */
@@ -58,7 +62,7 @@ body {
 }
 
 .title-bar {
-  background: #808080; /* Inactive Grey */
+  background: #808080;
   color: #c0c0c0;
   padding: 2px 3px;
   display: flex;
@@ -67,10 +71,12 @@ body {
   cursor: default;
   user-select: none;
   flex-shrink: 0;
+  height: 18px;
+  box-sizing: border-box;
 }
 
 .window.active .title-bar {
-  background: #000080; /* Active Blue */
+  background: #000080;
   color: white;
 }
 
@@ -83,16 +89,17 @@ body {
   flex-grow: 1;
   min-width: 0;
   margin-right: 4px;
+  line-height: 14px;
 }
 
 .controls {
   display: flex;
-  gap: 0;
+  gap: 2px;
   flex-shrink: 0;
 }
 
 .controls button {
-  width: 12px;
+  width: 14px;
   height: 12px;
   font-size: 8px;
   background: #c0c0c0;
@@ -100,47 +107,23 @@ body {
   border-color: #fff #808080 #808080 #fff;
   box-shadow: 1px 1px 0 #000;
   cursor: pointer;
-  line-height: 1;
+  line-height: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
-  font-family: 'w95font', sans-serif;
+  font-family: "w95font", sans-serif;
   font-weight: bold;
   position: relative;
-  z-index: 200; /* Ensure buttons are clickable over resizers */
-}
-
-.controls button.min-btn {
-  align-items: flex-end;
-  padding-bottom: 3px;
-  margin-right: 1px;
-  font-size: 12px;
-  line-height: 0.6;
-}
-
-.controls button.max-btn {
-  padding: 0;
-}
-
-.max-icon {
-  width: 8px;
-  height: 8px;
-  border: 1px solid black;
-  border-top-width: 2px;
+  z-index: 200;
+  color: black;
   box-sizing: border-box;
-}
-
-.controls button.close-btn {
-  font-size: 10px;
-  margin-left: 2px;
 }
 
 .controls button:active {
   border-color: #808080 #fff #fff #808080;
-  padding-top: 1px;
-  padding-left: 1px;
   box-shadow: none;
+  transform: translate(1px, 1px); /* Use translate to avoid layout shift */
 }
 
 .window-body {
@@ -151,7 +134,8 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 0;
-  position: relative; /* Ensure content stacking */
+  position: relative;
+  margin-top: 2px;
 }
 
 .window-body a {
@@ -160,15 +144,14 @@ body {
   height: 100%;
 }
 
-/* Specific Window Body Styles (Moved from inline styles) */
 .note-body {
   background: white;
   padding: 5px;
   overflow: auto;
-  font-family: 'w95font', sans-serif;
+  font-family: "w95font", sans-serif;
   font-size: 11px;
   display: block;
-  align-items: unset; /* Override center alignment */
+  align-items: unset;
   justify-content: unset;
   text-align: left;
 }
@@ -186,7 +169,7 @@ body {
   background: black;
   color: white;
   padding: 5px;
-  font-family: 'dosfont', monospace;
+  font-family: "dosfont", monospace;
   font-size: 10px;
   align-items: flex-start;
   justify-content: flex-start;
@@ -197,24 +180,17 @@ body {
 .fetch-pre {
   margin: 0;
   line-height: 1.2;
-  font-family: 'dosfont', monospace;
+  font-family: "dosfont", monospace;
 }
 
 .fetch-cursor-line {
   margin-top: 8px;
-  font-family: 'dosfont', monospace;
+  font-family: "dosfont", monospace;
   display: flex;
   align-items: center;
 }
 
-.content-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  image-rendering: pixelated;
-  display: block;
-}
-
+.content-img,
 .content-gif {
   width: 100%;
   height: 100%;
@@ -228,15 +204,62 @@ body {
   position: absolute;
   z-index: 100;
 }
-/* Offset by -5px to ensure they don't overlap the content (title bar) */
-.resizer.n { top: -5px; left: 0; width: 100%; height: 5px; cursor: n-resize; }
-.resizer.s { bottom: -5px; left: 0; width: 100%; height: 5px; cursor: s-resize; }
-.resizer.e { top: 0; right: -5px; width: 5px; height: 100%; cursor: e-resize; }
-.resizer.w { top: 0; left: -5px; width: 5px; height: 100%; cursor: w-resize; }
-.resizer.ne { top: -5px; right: -5px; width: 8px; height: 8px; cursor: ne-resize; }
-.resizer.nw { top: -5px; left: -5px; width: 8px; height: 8px; cursor: nw-resize; }
-.resizer.se { bottom: -5px; right: -5px; width: 8px; height: 8px; cursor: se-resize; }
-.resizer.sw { bottom: -5px; left: -5px; width: 8px; height: 8px; cursor: sw-resize; }
+.resizer.n {
+  top: -5px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  cursor: n-resize;
+}
+.resizer.s {
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  cursor: s-resize;
+}
+.resizer.e {
+  top: 0;
+  right: -5px;
+  width: 5px;
+  height: 100%;
+  cursor: e-resize;
+}
+.resizer.w {
+  top: 0;
+  left: -5px;
+  width: 5px;
+  height: 100%;
+  cursor: w-resize;
+}
+.resizer.ne {
+  top: -5px;
+  right: -5px;
+  width: 8px;
+  height: 8px;
+  cursor: ne-resize;
+}
+.resizer.nw {
+  top: -5px;
+  left: -5px;
+  width: 8px;
+  height: 8px;
+  cursor: nw-resize;
+}
+.resizer.se {
+  bottom: -5px;
+  right: -5px;
+  width: 8px;
+  height: 8px;
+  cursor: se-resize;
+}
+.resizer.sw {
+  bottom: -5px;
+  left: -5px;
+  width: 8px;
+  height: 8px;
+  cursor: sw-resize;
+}
 
 /* Desktop Icons */
 .desktop-icon {
@@ -272,14 +295,14 @@ body {
 /* Start Menu */
 .start-menu {
   position: absolute;
-  bottom: 22px;
+  bottom: 28px;
   left: 0;
   width: 120px;
   background: #c0c0c0;
   border: 2px solid;
   border-color: #fff #808080 #808080 #fff;
   display: flex;
-  z-index: 1000; /* Increased z-index */
+  z-index: 10000;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
@@ -328,15 +351,17 @@ body {
 .taskbar {
   position: absolute;
   bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
-  height: 22px;
+  height: 28px;
   background: #c0c0c0;
   border-top: 2px solid #fff;
   display: flex;
   align-items: center;
   padding: 2px;
   box-sizing: border-box;
-  z-index: 900;
+  z-index: 9999;
   justify-content: space-between;
 }
 
@@ -346,36 +371,42 @@ body {
   border-color: #808080 #fff #fff #808080;
   background: #c0c0c0;
   padding: 0 4px;
-  height: 16px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 9px;
-  min-width: 40px;
+  font-size: 11px;
+  min-width: 50px;
+  color: black;
+  box-sizing: border-box;
 }
 
 .start-btn {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
   font-weight: bold;
-  height: 16px;
-  padding: 0 4px;
+  height: 22px;
+  padding: 0 6px;
   border: 2px solid;
   border-color: #fff #808080 #808080 #fff;
   background: #c0c0c0;
-  font-size: 10px;
+  font-size: 11px;
   font-family: inherit;
   cursor: pointer;
+  color: black;
+  box-sizing: border-box;
 }
 
 .start-btn:active,
 .start-btn.active {
   border-color: #808080 #fff #fff #808080;
+  /* Removed padding changes to prevent resizing */
+  box-shadow: none;
 }
 .start-icon {
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   image-rendering: pixelated;
 }
 
@@ -385,37 +416,62 @@ body {
   margin-left: 4px;
   flex-grow: 1;
   overflow: hidden;
+  background: #c0c0c0;
+  height: 100%;
+  align-items: center;
+  padding-right: 4px;
 }
 
 .task-item {
-  height: 16px;
-  font-size: 9px;
+  height: 22px;
+  font-size: 10px;
   background: #c0c0c0;
   border: 2px solid;
   border-color: #fff #808080 #808080 #fff;
   padding: 0 4px;
-  width: auto;
-  flex-grow: 1;
-  flex-basis: 0;
-  max-width: 50%;
-  min-width: 0;
+  width: 120px; /* Fixed default width to allow shrinking */
+  max-width: 120px;
+  flex: 0 1 auto; /* Allow shrinking */
+  min-width: 0; /* Crucial for text-overflow in flex children */
   overflow: hidden;
   white-space: nowrap;
+  text-overflow: ellipsis; /* Should work now with min-width: 0 */
   cursor: pointer;
   font-family: inherit;
   text-align: left;
-  text-overflow: ellipsis;
+  color: black;
+  display: block; /* Changed from flex to block for simple text truncation */
+  line-height: 18px; /* Vertically center text approx */
+  box-sizing: border-box;
 }
 
 .task-item.active {
   background: #e0e0e0;
   border-color: #808080 #fff #fff #808080;
   font-weight: bold;
+  background: #fff;
+}
+
+.task-item:active {
+  border-color: #808080 #fff #fff #808080;
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Debug classes */
+.debug-orange {
+  background: orange !important;
+}
+.debug-green {
+  background: green !important;
 }
 
 .blink-cursor {
