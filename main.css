@@ -366,7 +366,7 @@ body {
 
 @font-face {
   font-family: 'dosfont';
-  src: url('/assets/MorePerfectDOSVGA.ttf') format('truetype');
+  src: url('./assets/MorePerfectDOSVGA.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
