@@ -40,7 +40,7 @@
       <div
         class="window"
         id="win-smoking"
-        style="top: 10px; left: 80px; z-index: 2; width: 100px;"
+        style="top: 10px; left: 80px; z-index: 2; width: 100px"
         data-title="smoking.png"
       >
         <div class="title-bar">
@@ -60,7 +60,7 @@
       <div
         class="window"
         id="win-gif"
-        style="top: 100px; left: 130px; z-index: 3; width: 100px;"
+        style="top: 100px; left: 130px; z-index: 3; width: 100px"
         data-title="axenide.gif"
       >
         <div class="title-bar">
@@ -82,7 +82,7 @@
       <div
         class="window hidden"
         id="win-tux"
-        style="top: 50px; left: 50px; z-index: 1; width: 100px;"
+        style="top: 50px; left: 50px; z-index: 1; width: 100px"
         data-title="tux.png"
       >
         <div class="title-bar">
@@ -102,7 +102,7 @@
       <div
         class="window hidden"
         id="win-note"
-        style="top: 75px; left: 35px; z-index: 1; width: 180px; height: 100px;"
+        style="top: 75px; left: 35px; z-index: 1; width: 180px; height: 100px"
         data-title="note.txt"
       >
         <div class="title-bar">
@@ -119,12 +119,75 @@
             background: white;
             padding: 5px;
             overflow: auto;
-            font-family: 'w95font', sans-serif;
+            font-family: &quot;w95font&quot;, sans-serif;
             font-size: 11px;
             display: block;
           "
         >
-          My name is <b><u>Adriano</u></b>, also known as <b><u>Axenide</u></b>. I'm a dev, artist, Linux user and... Well, <a href="https://axeni.de" target="_blank" style="font-weight: bold; text-decoration: underline; color: #CC241D; display: inline;">you can visit my website to know more.</a> :)
+          My name is <b><u>Adriano</u></b
+          >, also known as <b><u>Axenide</u></b
+          >. I'm a dev, artist, Linux user and... Well,
+          <a
+            href="https://axeni.de"
+            target="_blank"
+            style="
+              font-weight: bold;
+              text-decoration: underline;
+              color: #cc241d;
+              display: inline;
+            "
+            >you can visit my website to know more.</a
+          >
+          :)
+        </div>
+      </div>
+
+      <!-- Fetch Window -->
+      <div
+        class="window hidden"
+        id="win-fetch"
+        style="top: 75px; left: 25px; z-index: 1; width: 200px; height: 100px"
+        data-title="fetch.exe"
+      >
+        <div class="title-bar">
+          <span class="title">fetch.exe</span>
+          <div class="controls">
+            <button class="min-btn">_</button>
+            <button class="max-btn"><div class="max-icon"></div></button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div
+          class="window-body"
+          style="
+            background: black;
+            color: white;
+            padding: 5px;
+            font-family: &quot;dosfont&quot;, monospace;
+            font-size: 10px;
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-direction: column;
+            overflow: auto;
+          "
+        >
+          <pre
+            style="
+              margin: 0;
+              line-height: 1.2;
+              font-family: &quot;dosfont&quot;, monospace;
+            "
+          >
+  ／l、      axenide@world
+（ﾟ､ ｡ ７     NERD-DEV 3.14 
+ l  ~ ヽ     2378 (energy drinks)
+ じしf_,)ノ  Determination</pre
+          >
+          <div
+            style="margin-top: 8px; font-family: &quot;dosfont&quot;, monospace"
+          >
+            ~> <span class="blink-cursor"></span>
+          </div>
         </div>
       </div>
 
@@ -169,6 +232,16 @@
         <span>note.txt</span>
       </div>
 
+      <div
+        class="desktop-icon"
+        id="icon-fetch"
+        style="top: 130px; right: 10px"
+        data-win="win-fetch"
+      >
+        <img src="assets/exe.png" alt="fetch.exe" />
+        <span>fetch.exe</span>
+      </div>
+
       <div class="taskbar">
         <button class="start-btn" id="start-btn">
           <img src="assets/tux-icon.png" class="start-icon" />
@@ -176,6 +249,9 @@
         </button>
         <div class="task-items">
           <!-- Task items will be generated dynamically -->
+        </div>
+        <div class="taskbar-clock">
+          <span id="clock">12:00 PM</span>
         </div>
       </div>
     </div>
