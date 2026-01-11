@@ -12,52 +12,64 @@
           <a href="https://axeni.de" class="menu-item"
             ><img src="assets/icons/website.png" />Website</a
           >
-          <a href="https://youtube.com/@axenide" class="menu-item"
+          <a href="https://axeni.de/youtube" class="menu-item"
             ><img src="assets/icons/youtube.png" />YouTube</a
           >
-          <a href="https://twitch.tv/axenide" class="menu-item"
+          <a href="https://axeni.de/twitch" class="menu-item"
             ><img src="assets/icons/twitch.png" />Twitch</a
           >
-          <a href="https://x.com/axenide" class="menu-item"
+          <a href="https://axeni.de/x" class="menu-item"
             ><img src="assets/icons/x.png" />X</a
           >
-          <a href="https://instagram.com/axenide" class="menu-item"
+          <a href="https://axeni.de/instagram" class="menu-item"
             ><img src="assets/icons/instagram.png" />Instagram</a
           >
-          <a href="https://github.com/axenide" class="menu-item"
+          <a href="https://axeni.de/github" class="menu-item"
             ><img src="assets/icons/github.png" />GitHub</a
           >
-          <a href="https://discord.com" class="menu-item"
+          <a href="https://axeni.de/discord" class="menu-item"
             ><img src="assets/icons/discord.png" />Discord</a
           >
-          <a href="https://ko-fi.com/axenide" class="menu-item"
+          <a href="https://axeni.de/kofi" class="menu-item"
             ><img src="assets/icons/ko-fi.png" />Ko-Fi</a
           >
         </div>
       </div>
 
+      <!-- Smoking Window -->
       <div
         class="window"
         id="win-smoking"
-        style="top: 10px; left: 80px; z-index: 2"
+        style="top: 10px; left: 80px; z-index: 2; width: 100px;"
+        data-title="smoking.png"
       >
         <div class="title-bar">
           <span class="title">smoking.png</span>
-          <div class="controls"><button class="min-btn">_</button></div>
+          <div class="controls">
+            <button class="min-btn">_</button>
+            <button class="max-btn"><div class="max-icon"></div></button>
+            <button class="close-btn">X</button>
+          </div>
         </div>
         <div class="window-body">
           <img src="assets/smoking.png" class="content-img" />
         </div>
       </div>
 
+      <!-- Axenide GIF Window -->
       <div
         class="window"
         id="win-gif"
-        style="top: 100px; left: 130px; z-index: 3"
+        style="top: 100px; left: 130px; z-index: 3; width: 100px;"
+        data-title="axenide.gif"
       >
         <div class="title-bar">
           <span class="title">axenide.gif</span>
-          <div class="controls"><button class="min-btn">_</button></div>
+          <div class="controls">
+            <button class="min-btn">_</button>
+            <button class="max-btn"><div class="max-icon"></div></button>
+            <button class="close-btn">X</button>
+          </div>
         </div>
         <div class="window-body">
           <a href="https://axeni.de" target="_blank">
@@ -66,14 +78,102 @@
         </div>
       </div>
 
+      <!-- Tux Window -->
+      <div
+        class="window hidden"
+        id="win-tux"
+        style="top: 50px; left: 50px; z-index: 1; width: 100px;"
+        data-title="tux.png"
+      >
+        <div class="title-bar">
+          <span class="title">tux.png</span>
+          <div class="controls">
+            <button class="min-btn">_</button>
+            <button class="max-btn"><div class="max-icon"></div></button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div class="window-body">
+          <img src="assets/tux.png" class="content-img" />
+        </div>
+      </div>
+
+      <!-- Note Window -->
+      <div
+        class="window hidden"
+        id="win-note"
+        style="top: 150px; left: 150px; z-index: 1; width: 100px; height: 100px;"
+        data-title="note.txt"
+      >
+        <div class="title-bar">
+          <span class="title">note.txt</span>
+          <div class="controls">
+            <button class="min-btn">_</button>
+            <button class="max-btn"><div class="max-icon"></div></button>
+            <button class="close-btn">X</button>
+          </div>
+        </div>
+        <div
+          class="window-body"
+          style="
+            background: white;
+            padding: 5px;
+            overflow: auto;
+            font-family: monospace;
+          "
+        >
+          Hello World! This is a note.
+        </div>
+      </div>
+
+      <!-- Desktop Icons -->
+      <div
+        class="desktop-icon"
+        id="icon-bin"
+        style="top: 10px; left: 10px"
+        data-win="win-tux"
+      >
+        <img src="assets/Bin_Full95.svg" alt="Recycle Bin" />
+        <span>Recycle Bin</span>
+      </div>
+
+      <div
+        class="desktop-icon"
+        id="icon-smoking"
+        style="top: 70px; left: 10px"
+        data-win="win-smoking"
+      >
+        <img src="assets/img.png" alt="smoking.png" />
+        <span>smoking.png</span>
+      </div>
+
+      <div
+        class="desktop-icon"
+        id="icon-gif"
+        style="top: 130px; left: 10px"
+        data-win="win-gif"
+      >
+        <img src="assets/img.png" alt="axenide.gif" />
+        <span>axenide.gif</span>
+      </div>
+
+      <div
+        class="desktop-icon"
+        id="icon-note"
+        style="top: 10px; right: 10px"
+        data-win="win-note"
+      >
+        <img src="assets/txt.png" alt="note.txt" />
+        <span>note.txt</span>
+      </div>
+
       <div class="taskbar">
         <button class="start-btn" id="start-btn">
-          <img src="assets/ambxst.svg" class="start-icon" />
+          <img src="assets/tux-icon.png" class="start-icon" />
           Start
         </button>
         <div class="task-items">
-          <button class="task-item" data-win="win-smoking">smoking.png</button>
-          <button class="task-item" data-win="win-gif">axenide.gif</button>
+          <!-- Task items will be generated dynamically -->
         </div>
       </div>
     </div>
