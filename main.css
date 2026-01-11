@@ -75,7 +75,7 @@ body {
 
 .controls {
   display: flex;
-  gap: 2px;
+  gap: 0;
   flex-shrink: 0;
 }
 
@@ -86,6 +86,7 @@ body {
   background: #c0c0c0;
   border: 1px solid;
   border-color: #fff #808080 #808080 #fff;
+  box-shadow: 1px 1px 0 #000;
   cursor: pointer;
   line-height: 1;
   display: flex;
@@ -101,6 +102,7 @@ body {
 .controls button.min-btn {
   align-items: flex-end;
   padding-bottom: 2px;
+  margin-right: 1px;
 }
 
 .controls button.max-btn {
@@ -109,12 +111,14 @@ body {
 
 .controls button.close-btn {
   font-size: 10px;
+  margin-left: 2px;
 }
 
 .controls button:active {
   border-color: #808080 #fff #fff #808080;
   padding-top: 1px;
   padding-left: 1px;
+  box-shadow: none;
 }
 
 .window-body {
