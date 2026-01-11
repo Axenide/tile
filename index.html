@@ -1,260 +1,252 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="/main.css" />
-  </head>
-  <body>
-    <div class="desktop">
-      <div class="start-menu hidden" id="start-menu">
-        <div class="menu-sidebar"><b>@Axenide</b></div>
-        <div class="menu-items">
-          <a href="https://axeni.de" class="menu-item"
-            ><img src="assets/icons/website.png" />Website</a
-          >
-          <a href="https://axeni.de/youtube" class="menu-item"
-            ><img src="assets/icons/youtube.png" />YouTube</a
-          >
-          <a href="https://axeni.de/twitch" class="menu-item"
-            ><img src="assets/icons/twitch.png" />Twitch</a
-          >
-          <a href="https://axeni.de/x" class="menu-item"
-            ><img src="assets/icons/x.png" />X</a
-          >
-          <a href="https://axeni.de/instagram" class="menu-item"
-            ><img src="assets/icons/instagram.png" />Instagram</a
-          >
-          <a href="https://axeni.de/github" class="menu-item"
-            ><img src="assets/icons/github.png" />GitHub</a
-          >
-          <a href="https://axeni.de/discord" class="menu-item"
-            ><img src="assets/icons/discord.png" />Discord</a
-          >
-          <a href="https://axeni.de/kofi" class="menu-item"
-            ><img src="assets/icons/ko-fi.png" />Ko-Fi</a
-          >
-        </div>
-      </div>
-
-      <!-- Smoking Window -->
-      <div
-        class="window"
-        id="win-smoking"
-        style="top: 10px; left: 80px; z-index: 2; width: 100px"
-        data-title="smoking.png"
+<link rel="stylesheet" href="/main.css" />
+<div class="desktop">
+  <div class="start-menu hidden" id="start-menu">
+    <div class="menu-sidebar"><b>@Axenide</b></div>
+    <div class="menu-items">
+      <a href="https://axeni.de" class="menu-item"
+        ><img src="assets/icons/website.png" />Website</a
       >
-        <div class="title-bar">
-          <span class="title">smoking.png</span>
-          <div class="controls">
-            <button class="min-btn">_</button>
-            <button class="max-btn"><div class="max-icon"></div></button>
-            <button class="close-btn">X</button>
-          </div>
-        </div>
-        <div class="window-body">
-          <img src="assets/smoking.png" class="content-img" />
-        </div>
-      </div>
-
-      <!-- Axenide GIF Window -->
-      <div
-        class="window"
-        id="win-gif"
-        style="top: 100px; left: 130px; z-index: 3; width: 100px"
-        data-title="axenide.gif"
+      <a href="https://axeni.de/youtube" class="menu-item"
+        ><img src="assets/icons/youtube.png" />YouTube</a
       >
-        <div class="title-bar">
-          <span class="title">axenide.gif</span>
-          <div class="controls">
-            <button class="min-btn">_</button>
-            <button class="max-btn"><div class="max-icon"></div></button>
-            <button class="close-btn">X</button>
-          </div>
-        </div>
-        <div class="window-body">
-          <a href="https://axeni.de" target="_blank">
-            <img src="assets/88x31.gif" class="content-gif" />
-          </a>
-        </div>
-      </div>
-
-      <!-- Tux Window -->
-      <div
-        class="window hidden"
-        id="win-tux"
-        style="top: 50px; left: 50px; z-index: 1; width: 100px"
-        data-title="tux.png"
+      <a href="https://axeni.de/twitch" class="menu-item"
+        ><img src="assets/icons/twitch.png" />Twitch</a
       >
-        <div class="title-bar">
-          <span class="title">tux.png</span>
-          <div class="controls">
-            <button class="min-btn">_</button>
-            <button class="max-btn"><div class="max-icon"></div></button>
-            <button class="close-btn">X</button>
-          </div>
-        </div>
-        <div class="window-body">
-          <img src="assets/tux.png" class="content-img" />
-        </div>
-      </div>
-
-      <!-- Note Window -->
-      <div
-        class="window hidden"
-        id="win-note"
-        style="top: 75px; left: 35px; z-index: 1; width: 180px; height: 100px"
-        data-title="note.txt"
+      <a href="https://axeni.de/x" class="menu-item"
+        ><img src="assets/icons/x.png" />X</a
       >
-        <div class="title-bar">
-          <span class="title">note.txt</span>
-          <div class="controls">
-            <button class="min-btn">_</button>
-            <button class="max-btn"><div class="max-icon"></div></button>
-            <button class="close-btn">X</button>
-          </div>
-        </div>
-        <div
-          class="window-body"
-          style="
-            background: white;
-            padding: 5px;
-            overflow: auto;
-            font-family: &quot;w95font&quot;, sans-serif;
-            font-size: 11px;
-            display: block;
-          "
-        >
-          My name is <b><u>Adriano</u></b
-          >, also known as <b><u>Axenide</u></b
-          >. I'm a dev, artist, Linux user and... Well,
-          <a
-            href="https://axeni.de"
-            target="_blank"
-            style="
-              font-weight: bold;
-              text-decoration: underline;
-              color: #cc241d;
-              display: inline;
-            "
-            >you can visit my website to know more.</a
-          >
-          :)
-        </div>
-      </div>
-
-      <!-- Fetch Window -->
-      <div
-        class="window hidden"
-        id="win-fetch"
-        style="top: 75px; left: 25px; z-index: 1; width: 200px; height: 100px"
-        data-title="fetch.exe"
+      <a href="https://axeni.de/instagram" class="menu-item"
+        ><img src="assets/icons/instagram.png" />Instagram</a
       >
-        <div class="title-bar">
-          <span class="title">fetch.exe</span>
-          <div class="controls">
-            <button class="min-btn">_</button>
-            <button class="max-btn"><div class="max-icon"></div></button>
-            <button class="close-btn">X</button>
-          </div>
-        </div>
-        <div
-          class="window-body"
-          style="
-            background: black;
-            color: white;
-            padding: 5px;
-            font-family: &quot;dosfont&quot;, monospace;
-            font-size: 10px;
-            align-items: flex-start;
-            justify-content: flex-start;
-            flex-direction: column;
-            overflow: auto;
-          "
-        >
-          <pre
-            style="
-              margin: 0;
-              line-height: 1.2;
-              font-family: &quot;dosfont&quot;, monospace;
-            "
-          >
+      <a href="https://axeni.de/github" class="menu-item"
+        ><img src="assets/icons/github.png" />GitHub</a
+      >
+      <a href="https://axeni.de/discord" class="menu-item"
+        ><img src="assets/icons/discord.png" />Discord</a
+      >
+      <a href="https://axeni.de/kofi" class="menu-item"
+        ><img src="assets/icons/ko-fi.png" />Ko-Fi</a
+      >
+    </div>
+  </div>
+
+  <!-- Smoking Window -->
+  <div
+    class="window"
+    id="win-smoking"
+    style="top: 10px; left: 80px; z-index: 2; width: 100px"
+    data-title="smoking.png"
+  >
+    <div class="title-bar">
+      <span class="title">smoking.png</span>
+      <div class="controls">
+        <button class="min-btn">_</button>
+        <button class="max-btn"><div class="max-icon"></div></button>
+        <button class="close-btn">X</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <img src="assets/smoking.png" class="content-img" />
+    </div>
+  </div>
+
+  <!-- Axenide GIF Window -->
+  <div
+    class="window"
+    id="win-gif"
+    style="top: 100px; left: 130px; z-index: 3; width: 100px"
+    data-title="axenide.gif"
+  >
+    <div class="title-bar">
+      <span class="title">axenide.gif</span>
+      <div class="controls">
+        <button class="min-btn">_</button>
+        <button class="max-btn"><div class="max-icon"></div></button>
+        <button class="close-btn">X</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <a href="https://axeni.de" target="_blank">
+        <img src="assets/88x31.gif" class="content-gif" />
+      </a>
+    </div>
+  </div>
+
+  <!-- Tux Window -->
+  <div
+    class="window hidden"
+    id="win-tux"
+    style="top: 50px; left: 50px; z-index: 1; width: 100px"
+    data-title="tux.png"
+  >
+    <div class="title-bar">
+      <span class="title">tux.png</span>
+      <div class="controls">
+        <button class="min-btn">_</button>
+        <button class="max-btn"><div class="max-icon"></div></button>
+        <button class="close-btn">X</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <img src="assets/tux.png" class="content-img" />
+    </div>
+  </div>
+
+  <!-- Note Window -->
+  <div
+    class="window hidden"
+    id="win-note"
+    style="top: 75px; left: 35px; z-index: 1; width: 180px; height: 100px"
+    data-title="note.txt"
+  >
+    <div class="title-bar">
+      <span class="title">note.txt</span>
+      <div class="controls">
+        <button class="min-btn">_</button>
+        <button class="max-btn"><div class="max-icon"></div></button>
+        <button class="close-btn">X</button>
+      </div>
+    </div>
+    <div
+      class="window-body"
+      style="
+        background: white;
+        padding: 5px;
+        overflow: auto;
+        font-family: &quot;w95font&quot;, sans-serif;
+        font-size: 11px;
+        display: block;
+      "
+    >
+      My name is <b><u>Adriano</u></b
+      >, also known as <b><u>Axenide</u></b
+      >. I'm a dev, artist, Linux user and... Well,
+      <a
+        href="https://axeni.de"
+        target="_blank"
+        style="
+          font-weight: bold;
+          text-decoration: underline;
+          color: #cc241d;
+          display: inline;
+        "
+        >you can visit my website to know more.</a
+      >
+      :)
+    </div>
+  </div>
+
+  <!-- Fetch Window -->
+  <div
+    class="window hidden"
+    id="win-fetch"
+    style="top: 75px; left: 25px; z-index: 1; width: 200px; height: 100px"
+    data-title="fetch.exe"
+  >
+    <div class="title-bar">
+      <span class="title">fetch.exe</span>
+      <div class="controls">
+        <button class="min-btn">_</button>
+        <button class="max-btn"><div class="max-icon"></div></button>
+        <button class="close-btn">X</button>
+      </div>
+    </div>
+    <div
+      class="window-body"
+      style="
+        background: black;
+        color: white;
+        padding: 5px;
+        font-family: &quot;dosfont&quot;, monospace;
+        font-size: 10px;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-direction: column;
+        overflow: auto;
+      "
+    >
+      <pre
+        style="
+          margin: 0;
+          line-height: 1.2;
+          font-family: &quot;dosfont&quot;, monospace;
+        "
+      >
   ／l、      axenide@world
 （ﾟ､ ｡ ７     NERD-DEV 3.14 
  l  ~ ヽ     2378 (energy drinks)
  じしf_,)ノ  Determination</pre
-          >
-          <div
-            style="margin-top: 8px; font-family: &quot;dosfont&quot;, monospace"
-          >
-            ~> <span class="blink-cursor"></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Desktop Icons -->
-      <div
-        class="desktop-icon"
-        id="icon-bin"
-        style="top: 10px; left: 10px"
-        data-win="win-tux"
       >
-        <img src="assets/Bin_Full95.svg" alt="Recycle Bin" />
-        <span>Recycle Bin</span>
-      </div>
-
       <div
-        class="desktop-icon"
-        id="icon-smoking"
-        style="top: 85px; left: 10px"
-        data-win="win-smoking"
+        style="margin-top: 8px; font-family: &quot;dosfont&quot;, monospace"
       >
-        <img src="assets/img.png" alt="smoking.png" />
-        <span>smoking.png</span>
-      </div>
-
-      <div
-        class="desktop-icon"
-        id="icon-gif"
-        style="top: 160px; left: 10px"
-        data-win="win-gif"
-      >
-        <img src="assets/img.png" alt="axenide.gif" />
-        <span>axenide.gif</span>
-      </div>
-
-      <div
-        class="desktop-icon"
-        id="icon-note"
-        style="top: 10px; right: 10px"
-        data-win="win-note"
-      >
-        <img src="assets/txt.png" alt="note.txt" />
-        <span>note.txt</span>
-      </div>
-
-      <div
-        class="desktop-icon"
-        id="icon-fetch"
-        style="top: 160px; right: 10px"
-        data-win="win-fetch"
-      >
-        <img src="assets/exe.png" alt="fetch.exe" />
-        <span>fetch.exe</span>
-      </div>
-
-      <div class="taskbar">
-        <button class="start-btn" id="start-btn">
-          <img src="assets/tux-icon.png" class="start-icon" />
-          Start
-        </button>
-        <div class="task-items">
-          <!-- Task items will be generated dynamically -->
-        </div>
-        <div class="taskbar-clock">
-          <span id="clock">12:00 PM</span>
-        </div>
+        ~> <span class="blink-cursor"></span>
       </div>
     </div>
-    <script src="/app.js"></script>
-  </body>
-</html>
+  </div>
+
+  <!-- Desktop Icons -->
+  <div
+    class="desktop-icon"
+    id="icon-bin"
+    style="top: 10px; left: 10px"
+    data-win="win-tux"
+  >
+    <img src="assets/Bin_Full95.svg" alt="Recycle Bin" />
+    <span>Recycle Bin</span>
+  </div>
+
+  <div
+    class="desktop-icon"
+    id="icon-smoking"
+    style="top: 85px; left: 10px"
+    data-win="win-smoking"
+  >
+    <img src="assets/img.png" alt="smoking.png" />
+    <span>smoking.png</span>
+  </div>
+
+  <div
+    class="desktop-icon"
+    id="icon-gif"
+    style="top: 160px; left: 10px"
+    data-win="win-gif"
+  >
+    <img src="assets/img.png" alt="axenide.gif" />
+    <span>axenide.gif</span>
+  </div>
+
+  <div
+    class="desktop-icon"
+    id="icon-note"
+    style="top: 10px; right: 10px"
+    data-win="win-note"
+  >
+    <img src="assets/txt.png" alt="note.txt" />
+    <span>note.txt</span>
+  </div>
+
+  <div
+    class="desktop-icon"
+    id="icon-fetch"
+    style="top: 160px; right: 10px"
+    data-win="win-fetch"
+  >
+    <img src="assets/exe.png" alt="fetch.exe" />
+    <span>fetch.exe</span>
+  </div>
+
+  <div class="taskbar">
+    <button class="start-btn" id="start-btn">
+      <img src="assets/tux-icon.png" class="start-icon" />
+      Start
+    </button>
+    <div class="task-items">
+      <!-- Task items will be generated dynamically -->
+    </div>
+    <div class="taskbar-clock">
+      <span id="clock">12:00 PM</span>
+    </div>
+  </div>
+</div>
+<script src="/app.js"></script>
