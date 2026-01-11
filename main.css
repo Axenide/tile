@@ -1,0 +1,211 @@
+@font-face {
+  font-family: 'w95font';
+  src: url('./assets/w95font.woff2') format('woff2'),
+       url('./assets/w95font.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'w95font';
+  src: url('./assets/w95font-bold.woff2') format('woff2'),
+       url('./assets/w95font-bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  background: #1b1d1d;
+  overflow: hidden;
+  font-family: 'w95font', sans-serif;
+  font-size: 10px;
+}
+
+.desktop {
+  width: 250px;
+  height: 250px;
+  background-color: #008080;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #000;
+}
+
+/* Estilo Windows 95 (Chicago) */
+.window {
+  position: absolute;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #fff #808080 #808080 #fff;
+  padding: 2px;
+  box-shadow: 1px 1px 0 #000;
+}
+
+.title-bar {
+  background: #000080;
+  color: white;
+  padding: 2px 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: move;
+  user-select: none;
+}
+
+.title {
+  font-weight: bold;
+  white-space: nowrap;
+  font-size: 9px;
+}
+
+.controls button {
+  width: 12px;
+  height: 12px;
+  font-size: 8px;
+  background: #c0c0c0;
+  border: 1px solid;
+  border-color: #fff #808080 #808080 #fff;
+  cursor: pointer;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.window-body {
+  padding: 2px;
+  line-height: 0;
+}
+.content-img {
+  width: 90px;
+  height: auto;
+  image-rendering: pixelated;
+}
+.content-gif {
+  width: 88px;
+  image-rendering: pixelated;
+  display: block;
+}
+
+/* Start Menu */
+.start-menu {
+  position: absolute;
+  bottom: 22px;
+  left: 0;
+  width: 120px;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #fff #808080 #808080 #fff;
+  display: flex;
+  z-index: 100;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.menu-sidebar {
+  background: linear-gradient(to top, #000080, #1084d0);
+  width: 18px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  color: #fff;
+  padding: 5px 2px;
+  font-size: 11px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.menu-items {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background: #c0c0c0;
+}
+
+.menu-item {
+  padding: 3px 6px;
+  text-decoration: none;
+  color: #000;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+}
+
+.menu-item img {
+  width: 14px;
+  height: 14px;
+  image-rendering: pixelated;
+}
+.menu-item:hover {
+  background: #000080;
+  color: #fff;
+}
+
+/* Taskbar */
+.taskbar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 22px;
+  background: #c0c0c0;
+  border-top: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  box-sizing: border-box;
+}
+
+.start-btn {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: bold;
+  height: 16px;
+  padding: 0 4px;
+  border: 2px solid;
+  border-color: #fff #808080 #808080 #fff;
+  background: #c0c0c0;
+  font-size: 10px;
+  font-family: inherit;
+}
+
+.start-btn:active,
+.start-btn.active {
+  border-color: #808080 #fff #fff #808080;
+}
+.start-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.task-items {
+  display: flex;
+  gap: 2px;
+  margin-left: 4px;
+}
+.task-item {
+  height: 16px;
+  font-size: 9px;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #fff #808080 #808080 #fff;
+  padding: 0 4px;
+  width: 80px;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  text-overflow: ellipsis;
+}
+
+.task-item.active {
+  background: #e0e0e0;
+  border-color: #808080 #fff #fff #808080;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none !important;
+}

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <div class="desktop">
+      <div class="start-menu hidden" id="start-menu">
+        <div class="menu-sidebar"><b>@Axenide</b></div>
+        <div class="menu-items">
+          <a href="https://axeni.de" class="menu-item"
+            ><img src="assets/icons/website.png" />Website</a
+          >
+          <a href="https://youtube.com/@axenide" class="menu-item"
+            ><img src="assets/icons/youtube.png" />YouTube</a
+          >
+          <a href="https://twitch.tv/axenide" class="menu-item"
+            ><img src="assets/icons/twitch.png" />Twitch</a
+          >
+          <a href="https://x.com/axenide" class="menu-item"
+            ><img src="assets/icons/x.png" />X</a
+          >
+          <a href="https://instagram.com/axenide" class="menu-item"
+            ><img src="assets/icons/instagram.png" />Instagram</a
+          >
+          <a href="https://github.com/axenide" class="menu-item"
+            ><img src="assets/icons/github.png" />GitHub</a
+          >
+          <a href="https://discord.com" class="menu-item"
+            ><img src="assets/icons/discord.png" />Discord</a
+          >
+          <a href="https://ko-fi.com/axenide" class="menu-item"
+            ><img src="assets/icons/ko-fi.png" />Ko-Fi</a
+          >
+        </div>
+      </div>
+
+      <div
+        class="window"
+        id="win-smoking"
+        style="top: 10px; left: 80px; z-index: 2"
+      >
+        <div class="title-bar">
+          <span class="title">smoking.png</span>
+          <div class="controls"><button class="min-btn">_</button></div>
+        </div>
+        <div class="window-body">
+          <img src="assets/smoking.png" class="content-img" />
+        </div>
+      </div>
+
+      <div
+        class="window"
+        id="win-gif"
+        style="top: 100px; left: 130px; z-index: 3"
+      >
+        <div class="title-bar">
+          <span class="title">axenide.gif</span>
+          <div class="controls"><button class="min-btn">_</button></div>
+        </div>
+        <div class="window-body">
+          <a href="https://axeni.de" target="_blank">
+            <img src="assets/88x31.gif" class="content-gif" />
+          </a>
+        </div>
+      </div>
+
+      <div class="taskbar">
+        <button class="start-btn" id="start-btn">
+          <img src="assets/ambxst.svg" class="start-icon" />
+          Start
+        </button>
+        <div class="task-items">
+          <button class="task-item" data-win="win-smoking">smoking.png</button>
+          <button class="task-item" data-win="win-gif">axenide.gif</button>
+        </div>
+      </div>
+    </div>
+    <script src="/app.js"></script>
+  </body>
+</html>
