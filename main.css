@@ -1,15 +1,17 @@
 @font-face {
-  font-family: 'w95font';
-  src: url('./assets/w95font.woff2') format('woff2'),
-       url('./assets/w95font.woff') format('woff');
+  font-family: "w95font";
+  src:
+    url("./assets/w95font.woff2") format("woff2"),
+    url("./assets/w95font.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'w95font';
-  src: url('./assets/w95font-bold.woff2') format('woff2'),
-       url('./assets/w95font-bold.woff') format('woff');
+  font-family: "w95font";
+  src:
+    url("./assets/w95font-bold.woff2") format("woff2"),
+    url("./assets/w95font-bold.woff") format("woff");
   font-weight: bold;
   font-style: normal;
 }
@@ -18,7 +20,7 @@ body {
   margin: 0;
   background: #1b1d1d;
   overflow: hidden;
-  font-family: 'w95font', sans-serif;
+  font-family: "w95font", sans-serif;
   font-size: 10px;
 }
 
@@ -93,7 +95,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 0;
-  font-family: 'w95font', sans-serif;
+  font-family: "w95font", sans-serif;
   font-weight: bold;
   position: relative;
   z-index: 200; /* Ensure buttons are clickable over resizers */
@@ -180,14 +182,62 @@ body {
   z-index: 100;
 }
 /* Offset by -5px to ensure they don't overlap the content (title bar) */
-.resizer.n { top: -5px; left: 0; width: 100%; height: 5px; cursor: n-resize; }
-.resizer.s { bottom: -5px; left: 0; width: 100%; height: 5px; cursor: s-resize; }
-.resizer.e { top: 0; right: -5px; width: 5px; height: 100%; cursor: e-resize; }
-.resizer.w { top: 0; left: -5px; width: 5px; height: 100%; cursor: w-resize; }
-.resizer.ne { top: -5px; right: -5px; width: 8px; height: 8px; cursor: ne-resize; }
-.resizer.nw { top: -5px; left: -5px; width: 8px; height: 8px; cursor: nw-resize; }
-.resizer.se { bottom: -5px; right: -5px; width: 8px; height: 8px; cursor: se-resize; }
-.resizer.sw { bottom: -5px; left: -5px; width: 8px; height: 8px; cursor: sw-resize; }
+.resizer.n {
+  top: -5px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  cursor: n-resize;
+}
+.resizer.s {
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  cursor: s-resize;
+}
+.resizer.e {
+  top: 0;
+  right: -5px;
+  width: 5px;
+  height: 100%;
+  cursor: e-resize;
+}
+.resizer.w {
+  top: 0;
+  left: -5px;
+  width: 5px;
+  height: 100%;
+  cursor: w-resize;
+}
+.resizer.ne {
+  top: -5px;
+  right: -5px;
+  width: 8px;
+  height: 8px;
+  cursor: ne-resize;
+}
+.resizer.nw {
+  top: -5px;
+  left: -5px;
+  width: 8px;
+  height: 8px;
+  cursor: nw-resize;
+}
+.resizer.se {
+  bottom: -5px;
+  right: -5px;
+  width: 8px;
+  height: 8px;
+  cursor: se-resize;
+}
+.resizer.sw {
+  bottom: -5px;
+  left: -5px;
+  width: 8px;
+  height: 8px;
+  cursor: sw-resize;
+}
 
 /* Desktop Icons */
 .desktop-icon {
@@ -365,15 +415,20 @@ body {
 }
 
 @font-face {
-  font-family: 'dosfont';
-  src: url('./assets/MorePerfectDOSVGA.ttf') format('truetype');
+  font-family: "dosfont";
+  src: url("./assets/LessPerfectDOSVGA.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 .blink-cursor {
