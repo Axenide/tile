@@ -22,6 +22,7 @@ body {
   overflow: hidden;
   font-family: "w95font", sans-serif;
   font-size: 10px;
+  user-select: none;
 }
 
 .desktop {
@@ -442,4 +443,10 @@ body {
 
 .hidden {
   display: none !important;
+}
+
+#win-note .window-body,
+#win-fetch .window-body {
+  user-select: text;
+  cursor: text;
 }
