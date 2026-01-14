@@ -59,6 +59,7 @@ body {
   user-select: none;
   flex-shrink: 0;
   touch-action: none;
+  z-index: 5;
 }
 
 .window.active .title-bar {
@@ -254,6 +255,7 @@ body {
   text-align: center;
   cursor: pointer;
   z-index: 1;
+  touch-action: none;
 }
 
 .desktop-icon img {
@@ -372,6 +374,7 @@ body {
   font-size: 10px;
   font-family: inherit;
   cursor: pointer;
+  touch-action: none;
 }
 
 .start-btn:active,
@@ -410,6 +413,7 @@ body {
   font-family: inherit;
   text-align: left;
   text-overflow: ellipsis;
+  touch-action: none;
 }
 
 .task-item.active {
