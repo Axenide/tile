@@ -2,6 +2,14 @@ const startBtn = document.getElementById('start-btn');
 const startMenu = document.getElementById('start-menu');
 const taskItemsContainer = document.querySelector('.task-items');
 
+// Helper for touch/mouse coordinates
+const getClientPos = (e) => {
+    if (e.touches && e.touches.length > 0) {
+        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }
+    return { x: e.clientX, y: e.clientY };
+};
+
 // Start Menu Toggle
 startBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -32,7 +40,7 @@ document.addEventListener('click', (e) => {
     });
 });
 
-document.addEventListener('mousedown', (e) => {
+const activateWindow = (e) => {
     const win = e.target.closest('.window');
     if (win) {
         // Bring to front and activate
@@ -40,7 +48,13 @@ document.addEventListener('mousedown', (e) => {
         win.style.zIndex = 100;
         setActiveTaskbarItem(win.id);
     }
-});
+};
+
+document.addEventListener('mousedown', activateWindow);
+document.addEventListener('touchstart', (e) => {
+    // We don't prevent default here globally to allow scrolling content inside windows
+    activateWindow(e);
+}, {passive: true});
 
 // Helper para activar botón de taskbar y ventana
 function setActiveTaskbarItem(winId) {
@@ -150,6 +164,37 @@ let resizeDir = '';
 let offset = { x: 0, y: 0 };
 let initialRect = {};
 
+function handleResizeStart(e, win, dir) {
+    e.stopPropagation();
+    resizingWindow = win;
+    resizeDir = dir;
+    initialRect = win.getBoundingClientRect();
+    const pos = getClientPos(e);
+    offset.x = pos.x;
+    offset.y = pos.y;
+    document.querySelectorAll('.window').forEach(w => w.style.zIndex = 10);
+    win.style.zIndex = 100;
+    setActiveTaskbarItem(win.id);
+}
+
+function handleDragStart(e, win) {
+    if (e.target.closest('button')) return; // Ignorar clicks en botones
+    if (win.getAttribute('data-maximized') === 'true') return; // No arrastrar si maximizado
+
+    if (e.type === 'touchstart') {
+        e.preventDefault();
+    }
+    
+    e.stopPropagation();
+    draggedWindow = win;
+    const pos = getClientPos(e);
+    offset.x = pos.x - win.offsetLeft;
+    offset.y = pos.y - win.offsetTop;
+    document.querySelectorAll('.window').forEach(w => w.style.zIndex = 10);
+    win.style.zIndex = 100;
+    setActiveTaskbarItem(win.id);
+}
+
 document.querySelectorAll('.window').forEach(win => {
     const titleBar = win.querySelector('.title-bar');
     
@@ -157,36 +202,21 @@ document.querySelectorAll('.window').forEach(win => {
     ['n', 's', 'e', 'w', 'ne', 'nw', 'se', 'sw'].forEach(dir => {
         const resizer = document.createElement('div');
         resizer.className = `resizer ${dir}`;
-        resizer.onmousedown = (e) => {
-            e.stopPropagation();
-            resizingWindow = win;
-            resizeDir = dir;
-            initialRect = win.getBoundingClientRect();
-            offset.x = e.clientX;
-            offset.y = e.clientY;
-            document.querySelectorAll('.window').forEach(w => w.style.zIndex = 10);
-            win.style.zIndex = 100;
-            setActiveTaskbarItem(win.id);
-        };
+        
+        resizer.addEventListener('mousedown', (e) => handleResizeStart(e, win, dir));
+        resizer.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            handleResizeStart(e, win, dir);
+        }, {passive: false});
+
         win.appendChild(resizer);
     });
 
-    // Eventos de ventana
-    // Removed individual onmousedown as we use global delegation now for cleaner z-index handling
-    // win.onmousedown = ... (handled globally)
-
-    titleBar.onmousedown = (e) => {
-        if (e.target.closest('button')) return; // Ignorar clicks en botones
-        if (win.getAttribute('data-maximized') === 'true') return; // No arrastrar si maximizado
-
-        e.stopPropagation();
-        draggedWindow = win;
-        offset.x = e.clientX - win.offsetLeft;
-        offset.y = e.clientY - win.offsetTop;
-        document.querySelectorAll('.window').forEach(w => w.style.zIndex = 10);
-        win.style.zIndex = 100;
-        setActiveTaskbarItem(win.id);
-    };
+    // Eventos de ventana (Title Bar Drag)
+    titleBar.addEventListener('mousedown', (e) => handleDragStart(e, win));
+    titleBar.addEventListener('touchstart', (e) => {
+        handleDragStart(e, win);
+    }, {passive: false});
 
     // Botones
     win.querySelector('.min-btn').onclick = (e) => {
@@ -214,13 +244,14 @@ document.querySelectorAll('.window').forEach(win => {
     }
 });
 
-// Mouse Move Global (Arrastrar y Redimensionar)
-document.onmousemove = (e) => {
+// Mouse/Touch Move Global (Arrastrar y Redimensionar)
+const handleMove = (e) => {
     // Redimensionar
     if (resizingWindow) {
         e.preventDefault();
-        const deltaX = e.clientX - offset.x;
-        const deltaY = e.clientY - offset.y;
+        const pos = getClientPos(e);
+        const deltaX = pos.x - offset.x;
+        const deltaY = pos.y - offset.y;
         
         const minW = 100;
         const minH = 50;
@@ -253,15 +284,23 @@ document.onmousemove = (e) => {
 
     // Arrastrar
     if (draggedWindow) {
-        draggedWindow.style.left = (e.clientX - offset.x) + 'px';
-        draggedWindow.style.top = (e.clientY - offset.y) + 'px';
+        e.preventDefault();
+        const pos = getClientPos(e);
+        draggedWindow.style.left = (pos.x - offset.x) + 'px';
+        draggedWindow.style.top = (pos.y - offset.y) + 'px';
     }
 };
 
-document.onmouseup = () => {
+document.addEventListener('mousemove', handleMove);
+document.addEventListener('touchmove', handleMove, {passive: false});
+
+const handleEnd = () => {
     draggedWindow = null;
     resizingWindow = null;
 };
+
+document.addEventListener('mouseup', handleEnd);
+document.addEventListener('touchend', handleEnd);
 
 // Desktop Icons Logic
 document.querySelectorAll('.desktop-icon').forEach(icon => {

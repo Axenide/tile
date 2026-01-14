@@ -58,6 +58,7 @@ body {
   cursor: default;
   user-select: none;
   flex-shrink: 0;
+  touch-action: none;
 }
 
 .window.active .title-bar {
@@ -181,6 +182,7 @@ body {
 .resizer {
   position: absolute;
   z-index: 100;
+  touch-action: none;
 }
 /* Offset by -5px to ensure they don't overlap the content (title bar) */
 .resizer.n {
