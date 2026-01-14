@@ -179,11 +179,12 @@ function handleResizeStart(e, win, dir) {
 
 function handleDragStart(e, win) {
     if (e.target.closest('button')) return; // Ignorar clicks en botones
-    if (win.getAttribute('data-maximized') === 'true') return; // No arrastrar si maximizado
 
     if (e.type === 'touchstart') {
         e.preventDefault();
     }
+
+    if (win.getAttribute('data-maximized') === 'true') return; // No arrastrar si maximizado
     
     e.stopPropagation();
     draggedWindow = win;
