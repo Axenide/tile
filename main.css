@@ -32,6 +32,7 @@ body {
   position: relative;
   overflow: hidden;
   border: 1px solid #000;
+  touch-action: none; /* Prevent browser scrolling on desktop */
 }
 
 /* Estilo Windows 95 (Chicago) */
@@ -145,6 +146,7 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 0;
+  touch-action: pan-y; /* Allow vertical scrolling inside windows */
 }
 
 .window-body a {

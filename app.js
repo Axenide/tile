@@ -1,13 +1,45 @@
 const startBtn = document.getElementById('start-btn');
 const startMenu = document.getElementById('start-menu');
 const taskItemsContainer = document.querySelector('.task-items');
+const desktop = document.querySelector('.desktop');
+
+// Scale Logic
+let scaleFactor = 1;
+const baseSize = 250;
+
+function resizeApp() {
+    const width = window.innerWidth;
+    // Calculate scale to fit width
+    scaleFactor = width / baseSize;
+    
+    if (desktop) {
+        desktop.style.transformOrigin = 'top left';
+        desktop.style.transform = `scale(${scaleFactor})`;
+        
+        // Adjust body height to match scaled content
+        // This ensures the iframe fits the content vertically
+        document.body.style.height = (baseSize * scaleFactor) + 'px';
+        document.body.style.width = '100%';
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+window.addEventListener('resize', resizeApp);
+// Run initially
+resizeApp();
 
 // Helper for touch/mouse coordinates
 const getClientPos = (e) => {
+    let x, y;
     if (e.touches && e.touches.length > 0) {
-        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        x = e.touches[0].clientX;
+        y = e.touches[0].clientY;
+    } else {
+        x = e.clientX;
+        y = e.clientY;
     }
-    return { x: e.clientX, y: e.clientY };
+    // Correct for scale
+    return { x: x / scaleFactor, y: y / scaleFactor };
 };
 
 // Start Menu Toggle
